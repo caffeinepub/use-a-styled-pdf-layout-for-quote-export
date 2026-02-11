@@ -1,0 +1,60 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-11T14:03:38.243Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 2,
+    "implemented": 2,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Update the quote PDF export to generate a styled layout that visually matches the on-screen Quote Summary layout (project information section, items table structure, and a highlighted grand total block) rather than a simple text-only PDF.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/pdfExporter.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/pdfExporter.ts"
+        ]
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Ensure the existing 'Export PDF' action in the Quote Summary screen uses the styled PDF export path and provides a clear user-facing error message if the PDF library is not available at runtime.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/pdfExporter.ts",
+          "frontend/src/components/QuoteSummary.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/pdfExporter.ts",
+          "frontend/src/components/QuoteSummary.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "build-template/Dockerfile",
+    "build-template/LICENSE",
+    "build-template/README.md",
+    "build-template/deploy.sh",
+    "build-template/icp.yaml",
+    "build-template/src/backend/canister.yaml",
+    "build-template/src/frontend/canister.yaml",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/QuoteSummary.tsx",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/lib/pdfExporter.ts",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

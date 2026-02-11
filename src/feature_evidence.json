@@ -1,0 +1,46 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-quote-pdf-export-to-generate-a-styled-layout-that-visually-matches-the-on-screen-quote-summary-layout-project-information-section-items-table-structure-and-a-highlighted-grand-total-block-rather-than-a-simple-text-only-pdf",
+      "featureTitle": "Update the quote PDF export to generate a styled layout that visually matches the on-screen Quote Summary layout (project information section, items table structure, and a highlighted grand total block) rather than a simple text-only PDF.",
+      "files": [
+        "frontend/src/lib/pdfExporter.ts"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-existing-export-pdf-action-in-the-quote-summary-screen-uses-the-styled-pdf-export-path-and-provides-a-clear-user-facing-error-message-if-the-pdf-library-is-not-available-at-runtime",
+      "featureTitle": "Ensure the existing 'Export PDF' action in the Quote Summary screen uses the styled PDF export path and provides a clear user-facing error message if the PDF library is not available at runtime.",
+      "files": [
+        "frontend/src/components/QuoteSummary.tsx",
+        "frontend/src/lib/pdfExporter.ts"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

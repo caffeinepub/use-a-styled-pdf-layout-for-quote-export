@@ -1,0 +1,65 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-11T14:03:38.241Z",
+  "summary": "The diff updates the Quote Summary PDF export to call a new jsPDF-based exporter with runtime library checks and toast error handling. The PDF exporter appears to generate a styled document with a title and a “Project Information” section, but the truncated diff does not provide enough evidence to confirm all required section/table/grand-total styling details. The diff also modifies an explicitly immutable hook file, which is outside the requested scope.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "PDF table columns and ordering match the on-screen Quote Summary items table (Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total).",
+      "reason": "The pdfExporter implementation is truncated before the items table generation; the diff summary does not show the autoTable column definitions or ordering.",
+      "evidence": [
+        "frontend/src/lib/pdfExporter.ts (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "PDF includes the same quote header fields shown on-screen (Client Name, Project Name, Account Manager, Project Duration) and a generated date.",
+      "reason": "The diff shows Client Name and Project Name being written, but the truncated portion does not show Account Manager, Project Duration, nor rendering of the generated date within the PDF.",
+      "evidence": [
+        "frontend/src/lib/pdfExporter.ts (truncated)",
+        "frontend/src/components/QuoteSummary.tsx (pdfData includes date)"
+      ]
+    },
+    {
+      "id": "REQ-1",
+      "requirement": "Grand total is visually emphasized (e.g., shaded/boxed) and the value matches the UI grand total.",
+      "reason": "The diff summary does not include the portion of PDF rendering that draws the grand total block/styling; only the data includes total, but not how it is displayed.",
+      "evidence": [
+        "frontend/src/lib/pdfExporter.ts (truncated)",
+        "frontend/src/components/QuoteSummary.tsx (pdfData includes total)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added/maintained support for exporting an Analysis PDF (separate “Cost Analysis Report” path with AnalysisDataForPDF, generateAnalysisPDF, and analysis-specific document metadata).",
+      "reason": "The BuildRequest only specifies styling/behavior for quote PDF export from the Quote Summary screen; it does not request analysis PDF export functionality.",
+      "evidence": [
+        "frontend/src/lib/pdfExporter.ts (truncated)"
+      ]
+    },
+    {
+      "description": "Modified an explicitly immutable path: frontend/src/hooks/useInternetIdentity.ts.",
+      "reason": "BuildRequest constraints explicitly state not to edit any paths listed in frontend.immutablePaths and includes frontend/src/hooks/useInternetIdentity.ts(x); this change is outside requested work and violates constraints.",
+      "evidence": [
+        "frontend/src/hooks/useInternetIdentity.ts (truncated)"
+      ]
+    },
+    {
+      "description": "Added project_state.json with AR-1/AR-2/AR-3 tracking metadata.",
+      "reason": "Not requested by the BuildRequest; appears to be internal/project tracking rather than implementing PDF export requirements.",
+      "evidence": [
+        "project_state.json"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/QuoteSummary.tsx",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/lib/pdfExporter.ts",
+    "project_state.json"
+  ]
+}

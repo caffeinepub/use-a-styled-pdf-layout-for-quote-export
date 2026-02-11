@@ -1,0 +1,44 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Styled Quote PDF export matching Quote Summary",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Revise quote PDF generation to produce a styled, sectioned layout aligned with the on-screen Quote Summary (project info, items table structure, emphasized grand total).",
+      "acceptanceCriteria": [
+        "Exporting a quote to PDF produces a document with clearly separated sections (title, project information, items, grand total) with consistent styling (fonts, spacing, borders, and header/table styling).",
+        "The PDF table columns and ordering match the on-screen Quote Summary items table (Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total).",
+        "The PDF includes the same quote header fields shown on-screen (Client Name, Project Name, Account Manager, Project Duration) and a generated date.",
+        "The grand total is visually emphasized (e.g., shaded/boxed) and the value matches the UI grand total."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/pdfExporter.ts",
+          "operation": "modify",
+          "description": "Update the quote PDF rendering path to match Quote Summary’s visual structure: align project information section layout, adjust the items table headers/column ordering to exactly match the UI (remove/add columns as needed so it is Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total), and ensure the grand total block is visually emphasized and uses the same total value. Keep PDF generation client-side."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Make Quote Summary’s existing Export PDF action reliably use the styled exporter and show a clear toast error if jsPDF/jspdf-autotable is unavailable at runtime.",
+      "acceptanceCriteria": [
+        "Clicking 'Export PDF' successfully downloads a PDF for a generated quote using the styled layout.",
+        "If jsPDF/jspdf-autotable is not loaded, the user sees an English toast/error message indicating the PDF export library is not loaded and suggesting refresh/retry, without crashing the app."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/pdfExporter.ts",
+          "operation": "modify",
+          "description": "Harden runtime checks before PDF generation: validate that the jsPDF global is present and that the table feature (autotable plugin) is available; if not, throw a specific, user-friendly Error message that Quote Summary can display via toast."
+        },
+        {
+          "path": "frontend/src/components/QuoteSummary.tsx",
+          "operation": "modify",
+          "description": "Ensure the existing 'Export PDF' button continues to call the styled quote PDF export and, on failure, displays a clear English toast for missing PDF library (jsPDF/jspdf-autotable) suggesting refresh/retry, without breaking the screen."
+        }
+      ]
+    }
+  ]
+}

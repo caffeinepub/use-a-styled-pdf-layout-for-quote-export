@@ -1,0 +1,66 @@
+{
+  "kind": "build_request",
+  "title": "Use a styled PDF layout for quote export",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Update the quote PDF export to generate a styled layout that visually matches the on-screen Quote Summary layout (project information section, items table structure, and a highlighted grand total block) rather than a simple text-only PDF.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "user-1"
+        ],
+        "quotes": [
+          "I want it to use a styled layout."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Exporting a quote to PDF produces a document with clearly separated sections (title, project information, items, grand total) with consistent styling (fonts, spacing, borders, and header/table styling).",
+        "The PDF table columns and ordering match the on-screen Quote Summary items table (Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total).",
+        "The PDF includes the same quote header fields shown on-screen (Client Name, Project Name, Account Manager, Project Duration) and a generated date.",
+        "The grand total is visually emphasized (e.g., shaded/boxed) and the value matches the UI grand total."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Ensure the existing 'Export PDF' action in the Quote Summary screen uses the styled PDF export path and provides a clear user-facing error message if the PDF library is not available at runtime.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "user-1"
+        ],
+        "quotes": [
+          "Please load the pdf export library",
+          "I want it to use a styled layout."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Clicking 'Export PDF' successfully downloads a PDF for a generated quote using the styled layout.",
+        "If jsPDF/jspdf-autotable is not loaded, the user sees an English toast/error message indicating the PDF export library is not loaded and suggesting refresh/retry, without crashing the app."
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not edit files under frontend/src/components/ui (compose these components instead).",
+    "Do not edit any paths listed in frontend.immutablePaths (e.g., frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx)."
+  ],
+  "nonGoals": [
+    "Implementing a simple (unstyled) text-only PDF export option.",
+    "Adding backend persistence or new backend endpoints for PDF generation (PDF generation remains client-side)."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

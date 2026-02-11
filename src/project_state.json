@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Project to support exporting quotes to PDF with a styled layout matching the on-screen quote.",
+  "architectural_notes": [
+    "Use a browser-based PDF export library (e.g., jsPDF or equivalent) to generate styled quote PDFs matching UI layout."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-update-the-quote-pdf-export-to-generate-a-styled-layout-that-visually-matches-the-on-screen-quote-summary-layout-project-information-section-items-table-structure-and-a-highlighted-grand-total-block-rather-than-a-simple-text-only-pdf",
+      "title": "Update the quote PDF export to generate a styled layout that visually matches the on-screen Quote Summary layout (project information section, items table structure, and a highlighted grand total block) rather than a simple text-only PDF.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-existing-export-pdf-action-in-the-quote-summary-screen-uses-the-styled-pdf-export-path-and-provides-a-clear-user-facing-error-message-if-the-pdf-library-is-not-available-at-runtime",
+      "title": "Ensure the existing 'Export PDF' action in the Quote Summary screen uses the styled PDF export path and provides a clear user-facing error message if the PDF library is not available at runtime.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Integrate a PDF export library and add a 'Download PDF' for quotes using a styled layout that matches the on-screen quote.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Use a styled PDF layout for quote export",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
