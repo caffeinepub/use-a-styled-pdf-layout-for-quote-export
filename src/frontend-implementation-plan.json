@@ -1,42 +1,58 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Styled Quote PDF export matching Quote Summary",
+  "title": "Bundle jsPDF + autoTable and remove CDN dependency for reliable PDF export",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Revise quote PDF generation to produce a styled, sectioned layout aligned with the on-screen Quote Summary (project info, items table structure, emphasized grand total).",
+      "summary": "Bundle and load jsPDF + autoTable via app imports (not window.jspdf/CDN) so Quote Summary and Analysis PDF exports work reliably with clear fallback errors.",
       "acceptanceCriteria": [
-        "Exporting a quote to PDF produces a document with clearly separated sections (title, project information, items, grand total) with consistent styling (fonts, spacing, borders, and header/table styling).",
-        "The PDF table columns and ordering match the on-screen Quote Summary items table (Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total).",
-        "The PDF includes the same quote header fields shown on-screen (Client Name, Project Name, Account Manager, Project Duration) and a generated date.",
-        "The grand total is visually emphasized (e.g., shaded/boxed) and the value matches the UI grand total."
+        "From the Quote Summary screen, clicking \"Export PDF\" downloads a PDF without throwing the error \"PDF export library is not loaded\".",
+        "From the Analysis tab, clicking \"Export PDF\" downloads a PDF without throwing the error \"PDF export library is not loaded\".",
+        "The PDF export implementation does not rely on window.jspdf being pre-populated by CDN scripts; it uses app-bundled imports/loading so it works in production environments where external CDNs may be blocked.",
+        "If PDF libraries still fail to load for any reason, the user sees a clear English error message indicating PDF export could not be initialized and to try again."
       ],
       "file_operations": [
         {
+          "path": "frontend/package.json",
+          "operation": "modify",
+          "description": "Add app-bundled dependencies for PDF generation (jsPDF and the autoTable plugin) so the app can import them at runtime instead of relying on global CDN scripts."
+        },
+        {
           "path": "frontend/src/lib/pdfExporter.ts",
           "operation": "modify",
-          "description": "Update the quote PDF rendering path to match Quote Summary’s visual structure: align project information section layout, adjust the items table headers/column ordering to exactly match the UI (remove/add columns as needed so it is Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total), and ensure the grand total block is visually emphasized and uses the same total value. Keep PDF generation client-side."
+          "description": "Refactor PDF export to use bundled imports/loading (jsPDF + autoTable) rather than window.jspdf; ensure the autoTable integration is initialized consistently and throw a clear English initialization error if libraries cannot be loaded."
+        },
+        {
+          "path": "frontend/src/components/QuoteSummary.tsx",
+          "operation": "modify",
+          "description": "Update the Quote Summary \"Export PDF\" handler to use the updated PDF exporter API (e.g., await if it becomes async) and surface a clear, user-friendly error message via the existing toast flow when PDF initialization/generation fails."
+        },
+        {
+          "path": "frontend/src/components/AnalysisTab.tsx",
+          "operation": "modify",
+          "description": "Update the Analysis tab \"PDF\" export handler to use the updated PDF exporter API (e.g., await if it becomes async) and ensure any PDF initialization/generation failure results in a clear English toast message instructing the user to try again."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Make Quote Summary’s existing Export PDF action reliably use the styled exporter and show a clear toast error if jsPDF/jspdf-autotable is unavailable at runtime.",
+      "summary": "Ensure there is a single source of truth for PDF library loading by removing conflicting CDN/global loading and relying only on bundled imports to avoid jsPDF/autoTable mismatches.",
       "acceptanceCriteria": [
-        "Clicking 'Export PDF' successfully downloads a PDF for a generated quote using the styled layout.",
-        "If jsPDF/jspdf-autotable is not loaded, the user sees an English toast/error message indicating the PDF export library is not loaded and suggesting refresh/retry, without crashing the app."
+        "The app does not end up in a state where jsPDF is present but autoTable is missing (or vice versa) due to conflicting load paths.",
+        "No console error appears during normal page load related to jsPDF or autoTable initialization.",
+        "Existing export flows continue to work with the same user-facing button labels (e.g., \"Export PDF\")."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/lib/pdfExporter.ts",
+          "path": "frontend/index.html",
           "operation": "modify",
-          "description": "Harden runtime checks before PDF generation: validate that the jsPDF global is present and that the table feature (autotable plugin) is available; if not, throw a specific, user-friendly Error message that Quote Summary can display via toast."
+          "description": "Remove jsPDF and jsPDF-autoTable CDN script tags so PDF exporting is not double-loaded; keep the HTML entry focused on bootstrapping the app and any unrelated libraries still required."
         },
         {
-          "path": "frontend/src/components/QuoteSummary.tsx",
+          "path": "frontend/src/lib/pdfExporter.ts",
           "operation": "modify",
-          "description": "Ensure the existing 'Export PDF' button continues to call the styled quote PDF export and, on failure, displays a clear English toast for missing PDF library (jsPDF/jspdf-autotable) suggesting refresh/retry, without breaking the screen."
+          "description": "Eliminate any remaining reliance on global/window-based PDF objects and ensure the exporter consistently initializes both jsPDF and autoTable from the same bundled load path to prevent runtime plugin-missing mismatches."
         }
       ]
     }

@@ -1,24 +1,28 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Project to support exporting quotes to PDF with a styled layout matching the on-screen quote.",
+  "summary": "New project",
   "architectural_notes": [
-    "Use a browser-based PDF export library (e.g., jsPDF or equivalent) to generate styled quote PDFs matching UI layout."
+    "App depends on an external PDF export library that must be loaded/initialized before quote-to-PDF printing works.",
+    "Rate card updates are sent to an Internet Computer canister method `updateRateCard`; service availability impacts CSV upload."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "PDF export library not loaded; cannot print generated quote to PDF.",
+    "Uploading rate card .csv fails: IC0508 non_replicated_rejection reject_code 5 because canister s2z5l-zqaaa-aaaai-atqza-cai is stopped."
+  ],
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-update-the-quote-pdf-export-to-generate-a-styled-layout-that-visually-matches-the-on-screen-quote-summary-layout-project-information-section-items-table-structure-and-a-highlighted-grand-total-block-rather-than-a-simple-text-only-pdf",
-      "title": "Update the quote PDF export to generate a styled layout that visually matches the on-screen Quote Summary layout (project information section, items table structure, and a highlighted grand total block) rather than a simple text-only PDF.",
+      "id": "feature-make-pdf-export-work-reliably-by-bundling-and-loading-the-pdf-libraries-within-the-app-jspdf-and-the-autotable-plugin-instead-of-depending-on-global-cdn-scripts-window-jspdf-so-users-can-export-a-generated-quote-to-a-pdf-without-seeing-the-error-pdf-export-library-is-not-loaded",
+      "title": "Make PDF export work reliably by bundling and loading the PDF libraries within the app (jsPDF and the autoTable plugin) instead of depending on global CDN scripts (window.jspdf), so users can export a generated quote to a PDF without seeing the error \"PDF export library is not loaded\".",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-ensure-the-existing-export-pdf-action-in-the-quote-summary-screen-uses-the-styled-pdf-export-path-and-provides-a-clear-user-facing-error-message-if-the-pdf-library-is-not-available-at-runtime",
-      "title": "Ensure the existing 'Export PDF' action in the Quote Summary screen uses the styled PDF export path and provides a clear user-facing error message if the PDF library is not available at runtime.",
+      "id": "feature-update-the-html-entry-point-and-or-pdf-export-utility-so-there-is-a-single-consistent-source-of-truth-for-pdf-library-loading-avoid-double-loading-via-both-cdn-scripts-and-bundled-imports-preventing-runtime-mismatches-where-the-autotable-plugin-is-missing",
+      "title": "Update the HTML entry point and/or PDF export utility so there is a single, consistent source of truth for PDF library loading (avoid double-loading via both CDN scripts and bundled imports), preventing runtime mismatches where the autoTable plugin is missing.",
       "reqIds": [
         "REQ-2"
       ],
@@ -28,12 +32,18 @@
   "new_feature_requests": [
     {
       "id": "AR-1",
-      "summary": "Integrate a PDF export library and add a 'Download PDF' for quotes using a styled layout that matches the on-screen quote.",
+      "summary": "Fix PDF export: ensure PDF export library loads so users can print generated quotes to PDF",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Fix rate card CSV upload failing with IC0508 'Canister is stopped' during updateRateCard",
       "reqIds": [],
       "status": "pending"
     }
   ],
-  "projectName": "Use a styled PDF layout for quote export",
+  "projectName": "Fix PDF export by ensuring jsPDF library is reliably loaded",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

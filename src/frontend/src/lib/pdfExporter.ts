@@ -58,8 +58,8 @@ function formatNumber(value: number): string {
   return value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-export function exportToPDF(data: QuoteDataForPDF | AnalysisDataForPDF, filename: string, isAnalysis: boolean = false): void {
-  // Check if jsPDF is loaded
+export async function exportToPDF(data: QuoteDataForPDF | AnalysisDataForPDF, filename: string, isAnalysis: boolean = false): Promise<void> {
+  // Check if jsPDF is loaded from CDN
   if (typeof window.jspdf === 'undefined') {
     throw new Error('PDF export library is not loaded. Please refresh the page and try again.');
   }

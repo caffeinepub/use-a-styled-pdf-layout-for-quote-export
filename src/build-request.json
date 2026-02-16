@@ -1,66 +1,57 @@
 {
   "kind": "build_request",
-  "title": "Use a styled PDF layout for quote export",
+  "title": "Fix PDF export by ensuring jsPDF library is reliably loaded",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update the quote PDF export to generate a styled layout that visually matches the on-screen Quote Summary layout (project information section, items table structure, and a highlighted grand total block) rather than a simple text-only PDF.",
+      "text": "Make PDF export work reliably by bundling and loading the PDF libraries within the app (jsPDF and the autoTable plugin) instead of depending on global CDN scripts (window.jspdf), so users can export a generated quote to a PDF without seeing the error \"PDF export library is not loaded\".",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "user-1"
+          "msg-1"
         ],
         "quotes": [
-          "I want it to use a styled layout."
+          "PDF export library is not loaded. Please load it so that I am  able to print the quote generated to pdf"
         ]
       },
       "acceptanceCriteria": [
-        "Exporting a quote to PDF produces a document with clearly separated sections (title, project information, items, grand total) with consistent styling (fonts, spacing, borders, and header/table styling).",
-        "The PDF table columns and ordering match the on-screen Quote Summary items table (Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total).",
-        "The PDF includes the same quote header fields shown on-screen (Client Name, Project Name, Account Manager, Project Duration) and a generated date.",
-        "The grand total is visually emphasized (e.g., shaded/boxed) and the value matches the UI grand total."
+        "From the Quote Summary screen, clicking \"Export PDF\" downloads a PDF without throwing the error \"PDF export library is not loaded\".",
+        "From the Analysis tab, clicking \"Export PDF\" downloads a PDF without throwing the error \"PDF export library is not loaded\".",
+        "The PDF export implementation does not rely on window.jspdf being pre-populated by CDN scripts; it uses app-bundled imports/loading so it works in production environments where external CDNs may be blocked.",
+        "If PDF libraries still fail to load for any reason, the user sees a clear English error message indicating PDF export could not be initialized and to try again."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Ensure the existing 'Export PDF' action in the Quote Summary screen uses the styled PDF export path and provides a clear user-facing error message if the PDF library is not available at runtime.",
+      "text": "Update the HTML entry point and/or PDF export utility so there is a single, consistent source of truth for PDF library loading (avoid double-loading via both CDN scripts and bundled imports), preventing runtime mismatches where the autoTable plugin is missing.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "user-1"
+          "msg-1"
         ],
         "quotes": [
-          "Please load the pdf export library",
-          "I want it to use a styled layout."
+          "PDF export library is not loaded. Please load it so that I am  able to print the quote generated to pdf"
         ]
       },
       "acceptanceCriteria": [
-        "Clicking 'Export PDF' successfully downloads a PDF for a generated quote using the styled layout.",
-        "If jsPDF/jspdf-autotable is not loaded, the user sees an English toast/error message indicating the PDF export library is not loaded and suggesting refresh/retry, without crashing the app."
+        "The app does not end up in a state where jsPDF is present but autoTable is missing (or vice versa) due to conflicting load paths.",
+        "No console error appears during normal page load related to jsPDF or autoTable initialization.",
+        "Existing export flows continue to work with the same user-facing button labels (e.g., \"Export PDF\")."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under frontend/src/components/ui (compose these components instead).",
-    "Do not edit any paths listed in frontend.immutablePaths (e.g., frontend/src/hooks/useInternetIdentity.ts(x), frontend/src/hooks/useActor.ts, frontend/src/main.tsx)."
+    "Do not edit files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or anything under frontend/src/components/ui (compose instead).",
+    "Keep all backend logic in the single Motoko actor (backend/main.mo); no backend changes are required for this PDF loading fix."
   ],
   "nonGoals": [
-    "Implementing a simple (unstyled) text-only PDF export option.",
-    "Adding backend persistence or new backend endpoints for PDF generation (PDF generation remains client-side)."
+    "Fixing the separate rate card CSV upload error (IC0508 canister stopped).",
+    "Adding branding, headers, or logos to the PDF output (unless required to make loading work).",
+    "Changing the content/layout of the generated PDFs beyond what is necessary to ensure the export libraries load and function."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

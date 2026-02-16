@@ -1,12 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Update the Quote Summary “Export PDF” feature to generate a styled PDF that matches the on-screen Quote Summary layout and emphasizes the grand total.
+**Goal:** Make PDF export work reliably by bundling and consistently loading jsPDF and the autoTable plugin within the app, eliminating “PDF export library is not loaded” errors.
 
 **Planned changes:**
-- Implement a styled client-side PDF export layout with clearly separated sections (title, project information, items table, and a highlighted/boxed grand total block) using consistent fonts, spacing, borders, and table styling.
-- Ensure the PDF’s items table column order and headers match the on-screen Quote Summary table (Item Ref No, Category, Subcategory, Description, Standard Cost, Quantity, Duration, Total).
-- Include the same quote header fields as the UI (Client Name, Project Name, Account Manager, Project Duration) plus a generated export date.
-- Update the existing “Export PDF” action to use the styled export path and show a user-facing English error/toast if the PDF library (jsPDF/jspdf-autotable) is not available at runtime.
+- Replace reliance on global CDN-loaded `window.jspdf` with app-bundled imports/loading for jsPDF and autoTable in the PDF export implementation.
+- Ensure there is a single, consistent source of truth for PDF library loading (avoid double-loading/mixed paths) so jsPDF and autoTable are always initialized together.
+- Add a clear user-facing error message when PDF export cannot be initialized (e.g., library load/init failure), instructing the user to try again.
 
-**User-visible outcome:** Users can click “Export PDF” on the Quote Summary screen to download a professionally styled PDF that mirrors the on-screen summary (including a clearly emphasized grand total), and they receive a clear error message if the PDF export library is not loaded.
+**User-visible outcome:** From both the Quote Summary screen and the Analysis tab, clicking “Export PDF” downloads a PDF without the “PDF export library is not loaded” error, and if initialization fails the user sees a clear English message.

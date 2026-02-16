@@ -242,7 +242,7 @@ export default function AnalysisTab({ quote, onQuoteUpdated }: AnalysisTabProps)
     }
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     try {
       const pdfData = {
         header: quote.header,
@@ -268,11 +268,11 @@ export default function AnalysisTab({ quote, onQuoteUpdated }: AnalysisTabProps)
       };
 
       const filename = `analysis_${quote.header.projectName.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
-      exportToPDF(pdfData, filename, true);
+      await exportToPDF(pdfData, filename, true);
       toast.success('Analysis exported to PDF successfully!');
     } catch (error) {
       console.error('Error exporting to PDF:', error);
-      toast.error((error as Error).message || 'Failed to export to PDF. Please try again.');
+      toast.error((error as Error).message || 'Failed to export to PDF. Please refresh the page and try again.');
     }
   };
 
