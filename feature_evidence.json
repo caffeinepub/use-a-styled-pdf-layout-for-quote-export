@@ -1,0 +1,27 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-ensure-the-frontend-rate-card-upload-flow-works-end-to-end-for-non-admin-users-by-handling-any-remaining-authorization-errors-with-clear-english-messages-and-confirming-the-ui-refreshes-to-show-the-updated-rate-card-after-a-successful-upload",
+      "featureTitle": "Ensure the frontend rate card upload flow works end-to-end for non-admin users by handling any remaining authorization errors with clear English messages and confirming the UI refreshes to show the updated rate card after a successful upload.",
+      "files": [
+        "frontend/src/components/RateCardManager.tsx",
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/lib/backendError.ts"
+      ],
+      "components": [
+        "authorization@1.0.1",
+        "blob-storage@2.0.3",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

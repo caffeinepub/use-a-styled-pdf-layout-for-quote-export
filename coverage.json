@@ -1,0 +1,65 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-17T09:07:35.862Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 4,
+    "implemented": 1,
+    "items": [
+      {
+        "id": "REQ-1",
+        "summary": "Remove admin-only authorization checks that prevent non-admin users from uploading/updating the rate card; any authenticated user must be able to update the master rate card data.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-2",
+        "summary": "Remove admin-only authorization checks for rate-card maintenance operations so they are not restricted by admin role (addRateCardItem, updateRateCardItem, deleteRateCardItem, updateStandardCost).",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-3",
+        "summary": "Remove admin-only authorization checks for account manager maintenance so they are not restricted by admin role (updateAccountManagers, addAccountManager, updateAccountManager, deleteAccountManager).",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-4",
+        "summary": "Ensure the frontend rate card upload flow works end-to-end for non-admin users by handling any remaining authorization errors with clear English messages and confirming the UI refreshes to show the updated rate card after a successful upload.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/lib/backendError.ts",
+          "frontend/src/components/RateCardManager.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/lib/backendError.ts",
+          "frontend/src/components/RateCardManager.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "backend/main.mo",
+    "build-request.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/RateCardManager.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/lib/backendError.ts",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

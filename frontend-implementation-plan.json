@@ -1,0 +1,32 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "QuoteGen: Fix rate card upload UX for non-admin users",
+  "requirements": [
+    {
+      "id": "REQ-4",
+      "summary": "Ensure rate card upload works end-to-end for non-admin users with clear authorization error messaging and a reliable post-upload UI refresh.",
+      "acceptanceCriteria": [
+        "Uploading a CSV or XLSX in the Rate Card tab succeeds for a non-admin user and the \"Current Rate Card Database\" table updates to show the new items.",
+        "If an error occurs, the UI displays an English error toast/message that includes the backend error message text."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/lib/backendError.ts",
+          "operation": "create",
+          "description": "Add a small helper to normalize errors coming from backend traps (e.g., Unauthorized) into clear English messages while preserving the original backend error text for display. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/RateCardManager.tsx",
+          "operation": "modify",
+          "description": "Update the rate card upload/confirm flow to (1) use the shared backend error formatter so authorization failures show a clear English toast that includes the backend message text, and (2) explicitly trigger/await a rate card refetch after successful update so the \"Current Rate Card Database\" table reliably refreshes with the newly uploaded items. Verify the authorization component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Enhance the updateRateCard mutation to expose or accept a post-success refresh step (e.g., refetch/invalidate + optional await) that RateCardManager can use to ensure the updated rate card is visible immediately after upload. Verify the authorization component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

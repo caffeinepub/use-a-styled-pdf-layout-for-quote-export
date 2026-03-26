@@ -1,0 +1,98 @@
+{
+  "kind": "build_request",
+  "title": "Remove admin-role restrictions blocking rate card upload",
+  "projectName": "QuoteGen",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Remove admin-only authorization checks that prevent non-admin users from uploading/updating the rate card; any authenticated user must be able to update the master rate card data.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "I can't upload the rate card because of admin rights. Please remove all restricitions."
+        ]
+      },
+      "acceptanceCriteria": [
+        "A caller that is not an admin can successfully call updateRateCard without receiving an Unauthorized trap.",
+        "After updateRateCard succeeds, getRateCard returns the newly uploaded items for that same caller."
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Remove admin-only authorization checks for rate-card maintenance operations so they are not restricted by admin role (addRateCardItem, updateRateCardItem, deleteRateCardItem, updateStandardCost).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Please remove all restricitions."
+        ]
+      },
+      "acceptanceCriteria": [
+        "A non-admin caller can add, update, and delete individual rate card items via the corresponding backend methods without Unauthorized traps.",
+        "A non-admin caller can update standard cost via updateStandardCost without Unauthorized traps, and the updated value is reflected in subsequent getRateCard results."
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Remove admin-only authorization checks for account manager maintenance so they are not restricted by admin role (updateAccountManagers, addAccountManager, updateAccountManager, deleteAccountManager).",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Please remove all restricitions."
+        ]
+      },
+      "acceptanceCriteria": [
+        "A non-admin caller can add/update/delete account managers via the backend without Unauthorized traps.",
+        "getAccountManagers reflects the changes after mutations complete."
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Ensure the frontend rate card upload flow works end-to-end for non-admin users by handling any remaining authorization errors with clear English messages and confirming the UI refreshes to show the updated rate card after a successful upload.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "I can't upload the rate card because of admin rights."
+        ]
+      },
+      "acceptanceCriteria": [
+        "Uploading a CSV or XLSX in the Rate Card tab succeeds for a non-admin user and the \"Current Rate Card Database\" table updates to show the new items.",
+        "If an error occurs, the UI displays an English error toast/message that includes the backend error message text."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor in backend/main.mo.",
+    "Do not edit frontend files under frontend/src/components/ui or any other paths listed in frontend immutablePaths."
+  ],
+  "nonGoals": [
+    "Do not add third-party authentication providers (only Internet Identity is supported).",
+    "Do not introduce external databases or additional backend services."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

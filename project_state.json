@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "New project",
+  "architectural_notes": [],
+  "known_issues": [
+    "Rate card upload is blocked due to admin-rights restrictions."
+  ],
+  "isFixRequest": true,
+  "existing_features": [
+    {
+      "id": "feature-ensure-the-frontend-rate-card-upload-flow-works-end-to-end-for-non-admin-users-by-handling-any-remaining-authorization-errors-with-clear-english-messages-and-confirming-the-ui-refreshes-to-show-the-updated-rate-card-after-a-successful-upload",
+      "title": "Ensure the frontend rate card upload flow works end-to-end for non-admin users by handling any remaining authorization errors with clear English messages and confirming the UI refreshes to show the updated rate card after a successful upload.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Remove admin-right restrictions so the user can upload the rate card (remove all restrictions)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Remove admin-only authorization checks that prevent non-admin users from uploading/updating the rate card; any authenticated user must be able to update the master rate card data.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Remove admin-only authorization checks for rate-card maintenance operations so they are not restricted by admin role (addRateCardItem, updateRateCardItem, deleteRateCardItem, updateStandardCost).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Remove admin-only authorization checks for account manager maintenance so they are not restricted by admin role (updateAccountManagers, addAccountManager, updateAccountManager, deleteAccountManager).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    }
+  ],
+  "projectName": "QuoteGen",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

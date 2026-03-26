@@ -1,0 +1,44 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-17T09:07:35.859Z",
+  "summary": "Backend change shown removes an admin-only restriction for updateRateCard by requiring only a generic `#user` permission, and frontend changes add backend-error formatting plus explicit react-query refetch/invalidation after updateRateCard. However, the diff summary does not provide evidence that the other admin-role restrictions (rate-card item maintenance, standard cost updates, and account manager maintenance) were removed, and the frontend’s new error formatter is imported but its usage in the upload flow is not evidenced in the truncated snippet.",
+  "missing_requirements": [
+    {
+      "id": "REQ-2",
+      "requirement": "Remove admin-only authorization checks for rate-card maintenance operations so they are not restricted by admin role (addRateCardItem, updateRateCardItem, deleteRateCardItem, updateStandardCost).",
+      "reason": "The diff shows updateRateCard/getRateCard authorization changes, but provides no evidence that addRateCardItem/updateRateCardItem/deleteRateCardItem/updateStandardCost authorization checks were changed/removed; relevant portions of backend/main.mo are truncated and these functions are not shown.",
+      "evidence": [
+        "backend/main.mo (truncated; only updateRateCard/getRateCard auth shown)"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Remove admin-only authorization checks for account manager maintenance so they are not restricted by admin role (updateAccountManagers, addAccountManager, updateAccountManager, deleteAccountManager).",
+      "reason": "No evidence in the diff summary that backend account-manager mutation methods had their admin-only checks removed/updated; backend/main.mo excerpt does not show these methods.",
+      "evidence": [
+        "backend/main.mo (truncated; no account manager mutation methods shown)"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "requirement": "Frontend rate card upload flow: handle remaining authorization errors with clear English messages that include backend error message text, and confirm UI refreshes to show updated rate card after successful upload.",
+      "reason": "UI refresh after upload is evidenced via react-query invalidate+refetch for rateCard, but the truncated RateCardManager.tsx snippet only shows that formatBackendError is imported, not that upload/mutation errors are caught and displayed using it (including backend error text).",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts (onSuccess invalidates+refetches ['rateCard'])",
+        "frontend/src/components/RateCardManager.tsx (truncated; imports formatBackendError but usage not shown)",
+        "frontend/src/lib/backendError.ts (formatter added)"
+      ]
+    }
+  ],
+  "hallucinated_features": [],
+  "confidence": 0.68,
+  "changed_files": [
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/src/components/RateCardManager.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/lib/backendError.ts",
+    "project_state.json"
+  ]
+}
